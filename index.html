@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Mi Persona Favorita ❤️</title>
+  
+  <!-- Carga de Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fuentes de Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --base: #0f131f;
+      --panel: rgba(255, 255, 255, 0.05);
+      --border: rgba(255, 219, 221, 0.18);
+      --ink: #fff5f0;
+      --muted: #d7c8cf;
+      --accent: #ff8d9e;
+      --accent-glow: rgba(255, 141, 158, 0.35);
+      --gold: #f8d5a0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--base);
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Fondo ambiental suave */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(circle at 20% 20%, rgba(224, 86, 136, 0.15), transparent 45%),
+        radial-gradient(circle at 80% 80%, rgba(248, 213, 160, 0.08), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.05), transparent 60%);
+      z-index: 0;
+    }
+
+    .serif {
+      font-family: "Playfair Display", Georgia, serif;
+    }
+
+    .glass {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .accent { color: var(--accent); }
+    .muted { color: var(--muted); }
+    .gold { color: var(--gold); }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      padding: 0.65rem 1.4rem;
+      color: var(--ink);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .pill:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 141, 158, 0.4);
+      box-shadow: 0 8px 20px rgba(255, 141, 158, 0.15);
+    }
+
+    .pill.primary {
+      background: linear-gradient(135deg, #ff8d9e 0%, #e8637c 100%);
+      color: #1a0810;
+      border-color: transparent;
+      font-weight: 700;
+    }
+
+    .pill.primary:hover {
+      box-shadow: 0 10px 25px var(--accent-glow);
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--gold) !important;
+      outline-offset: 3px;
+    }
+
+    /* ANIMACIÓN SUAVE Y LENTA DE LOS CORAZONES FLOTANTES DE FONDO */
+    .hearts-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .floating-heart {
+      position: absolute;
+      bottom: -10%;
+      color: var(--accent);
+      opacity: 0;
+      user-select: none;
+      animation: floatUpSlow linear infinite;
+      filter: drop-shadow(0 0 6px rgba(255, 141, 158, 0.3));
+    }
+
+    @keyframes floatUpSlow {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg) scale(0.8);
+        opacity: 0;
+      }
+      15% {
+        opacity: 0.25;
+      }
+      50% {
+        transform: translateY(-50vh) translateX(25px) rotate(15deg) scale(1);
+        opacity: 0.2;
+      }
+      85% {
+        opacity: 0.15;
+      }
+      100% {
+        transform: translateY(-115vh) translateX(-25px) rotate(-15deg) scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    /* VINILO Y REPRODUCTOR */
+    .vinyl {
+      width: min(220px, 55vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      padding: 12px;
+      background: repeating-radial-gradient(circle, #2a2b36 0 3px, #12131a 4px 7px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.05);
+      position: relative;
+      transition: transform 0.5s ease;
+    }
+
+    .vinyl img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 6px solid #161720;
+    }
+
+    .vinyl::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #f7e9dd;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 0 4px #161720;
+    }
+
+    .vinyl.playing {
+      animation: spinVinyl 12s linear infinite;
+    }
+
+    @keyframes spinVinyl {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* GALERÍA */
+    .photo-card {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      border-radius: 1.25rem;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .photo-card img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(15, 19, 31, 0.85) 0%, rgba(15, 19, 31, 0) 60%);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.25rem;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+    }
+
+    /* OVERLAYS / MODALES */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(8, 10, 17, 0.88);
+      backdrop-filter: blur(12px);
+      display: grid;
+      place-items: center;
+      padding: 1.25rem;
+      opacity: 1;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .overlay.hidden-overlay {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .timeline {
+      border-left: 2px solid rgba(255, 141, 158, 0.3);
+      padding-left: 1.75rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: "♥";
+      position: absolute;
+      left: -2.35rem;
+      top: -2px;
+      color: var(--accent);
+      background: var(--base);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      border: 1px solid var(--accent);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .floating-heart, .vinyl.playing {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="stage">
+
+  <!-- REPRODUCTOR DE AUDIO HTML5 CON EL NOMBRE EXACTO DE TU ARCHIVO -->
+  <audio id="audio-player" loop preload="auto">
+    <source src="Rauw Alejandro &amp; Camilo - Tattoo Remix (Video Oficial).mp3" type="audio/mpeg">
+    Tu navegador no soporta el elemento de audio.
+  </audio>
+
+  <!-- CORAZONES FLOTANTES DE FONDO -->
+  <div class="hearts-container" aria-hidden="true">
+    <span class="floating-heart" style="left: 8%; animation-duration: 18s; animation-delay: 0s; font-size: 1.4rem;">♥</span>
+    <span class="floating-heart" style="left: 22%; animation-duration: 24s; animation-delay: -6s; font-size: 1.1rem;">♥</span>
+    <span class="floating-heart" style="left: 38%; animation-duration: 21s; animation-delay: -12s; font-size: 1.6rem;">♥</span>
+    <span class="floating-heart" style="left: 55%; animation-duration: 26s; animation-delay: -3s; font-size: 1.2rem;">♥</span>
+    <span class="floating-heart" style="left: 72%; animation-duration: 19s; animation-delay: -15s; font-size: 1.5rem;">♥</span>
+    <span class="floating-heart" style="left: 88%; animation-duration: 23s; animation-delay: -9s; font-size: 1.3rem;">♥</span>
+  </div>
+
+  <!-- PANTALLA DE BIENVENIDA MODAL -->
+  <div id="welcome-modal" class="overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+    <div class="glass rounded-3xl max-w-lg w-full text-center p-8 sm:p-12 relative overflow-hidden">
+      <div class="gold tracking-[0.35em] uppercase text-xs font-medium mb-4">Un detalle especial para ti</div>
+      <h1 id="welcome-title" class="serif text-3xl sm:text-4xl font-semibold mb-4 text-white leading-tight">
+        Para mi persona favorita ❤️
+      </h1>
+      <p class="muted text-base leading-relaxed mb-8">
+        Hay palabras e instantes que merecen un lugar único. Guarda este pequeño universo de recuerdos hecho con mucho cariño.
+      </p>
+      <button id="open-gift-btn" type="button" class="pill primary text-base font-bold shadow-lg">
+        <span>Abrir mi regalo</span> ♥
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div id="main-content" class="relative z-10">
+    
+    <!-- NAVEGACIÓN -->
+    <header class="max-w-6xl mx-auto px-5 sm:px-8 pt-8">
+      <nav aria-label="Navegación principal" class="flex flex-wrap justify-between items-center gap-4">
+        <a href="#inicio" class="serif gold text-xl font-bold no-underline tracking-wide">♥ Para ti</a>
+        <div class="flex flex-wrap gap-2 text-sm">
+          <a href="#carta" class="pill">Carta</a>
+          <a href="#recuerdos" class="pill">Recuerdos</a>
+          <a href="#galeria" class="pill">Galería</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="inicio" class="max-w-6xl mx-auto px-5 sm:px-8">
+      
+      <!-- HERO & REPRODUCTOR -->
+      <section class="grid lg:grid-cols-[1fr_380px] gap-10 items-center py-12 sm:py-20">
+        <div>
+          <p class="gold uppercase tracking-[0.3em] text-xs font-semibold mb-4">UNA HISTORIA QUE SIGUE CRECIENDO</p>
+          <h1 class="serif text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-white">
+            Para Mi Persona Favorita ❤️
+          </h1>
+          <p class="muted text-lg sm:text-xl leading-relaxed max-w-xl mb-8">
+            Entre todos los lugares del mundo, mi lugar favorito siempre será cualquier rincón en el que estemos juntos.
+          </p>
+          <a href="#carta" class="pill primary no-underline">
+            Lee mi carta ↗
+          </a>
+        </div>
+
+        <!-- REPRODUCTOR DE MÚSICA -->
+        <div class="glass rounded-[2rem] p-7 text-center">
+          <h2 class="serif text-2xl font-medium mb-6 text-white">Nuestra banda sonora</h2>
+          
+          <div id="vinyl-disk" class="vinyl mx-auto">
+            <img src="https://images.pexels.com/photos/1024960/pexels-photo-1024960.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Pareja de la mano en la playa">
+          </div>
+
+          <p id="song-title" class="serif text-xl mt-6 text-white font-medium">Tattoo (Remix)</p>
+          <p class="muted text-sm mt-1">Rauw Alejandro & Camilo</p>
+
+          <!-- CONTROLES -->
+          <div class="flex justify-center items-center gap-3 mt-6">
+            <button type="button" id="play-btn" class="pill primary min-w-[140px]" aria-label="Reproducir canción">▶ Reproducir</button>
+          </div>
+
+          <!-- VOLUMEN -->
+          <div class="mt-6">
+            <label for="volume-control" class="block text-xs muted mb-2 uppercase tracking-wider">Volumen</label>
+            <input id="volume-control" type="range" min="0" max="100" value="80" class="w-full accent-pink-400 cursor-pointer h-1.5 bg-white/10 rounded-lg">
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN CARTA -->
+      <section id="carta" class="py-12 sm:py-16">
+        <div class="glass rounded-[2rem] p-8 sm:p-12 max-w-4xl mx-auto relative overflow-hidden">
+          <div class="gold uppercase tracking-[0.25em] text-xs font-semibold mb-4">DESDE EL CORAZÓN</div>
+          <h2 class="serif text-3xl font-semibold mb-6 text-white">Una carta para ti</h2>
+          
+          <p class="accent serif text-xl mb-6 font-medium">Para ti, mi persona favorita:</p>
+          
+          <div class="text-white/90 text-base sm:text-lg leading-relaxed space-y-4 font-normal">
+            <p>
+              A veces no encuentro las palabras suficientes para expresarte todo lo que significas para mí. Llegaste a mi vida y transformaste los días cotidianos en recuerdos cálidos e inolvidables.
+            </p>
+            <p>
+              Disfruto cada una de nuestras conversaciones, las risas espontáneas y la paz incomparable de saber que puedo ser completamente yo cuando estoy a tu lado. Gracias por tu presencia, tu ternura y por todo lo hermoso que nos falta por vivir.
+            </p>
+            <p>
+              Si pudiera darte una certeza hoy y siempre, sería esta: ocupas un lugar totalmente irremplazable en mi corazón.
+            </p>
+          </div>
+
+          <p class="gold serif text-xl mt-8 font-medium">Con todo mi cariño, siempre tuyo/a. ♥</p>
+        </div>
+      </section>
+
+      <!-- RECUERDOS (TIMELINE) -->
+      <section id="recuerdos" class="py-12 sm:py-16 max-w-3xl mx-auto">
+        <p class="gold uppercase tracking-[0.25em] text-xs font-semibold mb-3">NUESTRO CAMINO</p>
+        <h2 class="serif text-3xl font-semibold mb-10 text-white">Momentos que guardo conmigo</h2>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <h3 class="serif accent text-xl font-medium mb-1">El primer encuentro</h3>
+            <p class="muted text-base">Ese mágico instante en que nuestra historia comenzó sin saber todo lo maravilloso que vendría.</p>
+          </div>
+          <div class="timeline-item">
+            <h3 class="serif accent text-xl font-medium mb-1">Nuestra primera aventura</h3>
+            <p class="muted text-base">Descubrimos que cualquier lugar del mundo se vuelve especial si lo exploramos juntos.</p>
+          </div>
+          <div class="timeline-item">
+            <h3 class="serif accent text-xl font-medium mb-1">Todo lo que viene</h3>
+            <p class="muted text-base">Un futuro lleno de nuevas metas, canciones compartidas y miles de razones para sonreír.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALERÍA DE FOTOS -->
+      <section id="galeria" class="py-12 sm:py-16">
+        <h2 class="serif text-3xl font-semibold mb-3 text-white">Nuestro álbum de recuerdos</h2>
+        <p class="muted text-base mb-8">Haz clic en cualquier fotografía para verla en pantalla completa.</p>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Foto 1 (El comienzo) -->
+          <div class="photo-card" onclick="openLightbox(0)">
+            <img src="https://drive.google.com/file/d/142yeteadsZgVHss9S-y_1R5myJfrYTPn/view?usp=drivesdk" alt="El comienzo">
+            <div class="photo-overlay"><span class="text-white font-medium">El comienzo</span></div>
+          </div>
+          <!-- Foto 2 (Nuestra cita) -->
+          <div class="photo-card" onclick="openLightbox(1)">
+            <img src="https://drive.google.com/file/d/1muguAe45iEdkX44NwVSVOWlo7Htk50sH/view?usp=drivesdk" alt="Nuestra cita">
+            <div class="photo-overlay"><span class="text-white font-medium">Nuestra cita</span></div>
+          </div>
+          <!-- Foto 3 (Risas compartidas) -->
+          <div class="photo-card" onclick="openLightbox(2)">
+            <img src="https://drive.google.com/file/d/1HvyUeKnK2MsEhuJ6DLwudmoTv8wf6qOh/view?usp=drivesdk" alt="Risas compartidas">
+            <div class="photo-overlay"><span class="text-white font-medium">Risas compartidas</span></div>
+          </div>
+          <!-- Foto 4 (Aventuras juntos) -->
+          <div class="photo-card" onclick="openLightbox(3)">
+            <img src="https://drive.google.com/file/d/1QOneKXRv91VsGA9angqbJV_pVd5P4LuR/view?usp=drivesdk" alt="Aventuras juntos">
+            <div class="photo-overlay"><span class="text-white font-medium">Aventuras juntos</span></div>
+          </div>
+          <!-- Foto 5 (Pequeños detalles) -->
+          <div class="photo-card" onclick="openLightbox(4)">
+            <img src="https://drive.google.com/file/d/1xmn_xrPkWFM2wXSKiMTstRlj7g7W9Fcp/view?usp=drivesdk" alt="Pequeños detalles">
+            <div class="photo-overlay"><span class="text-white font-medium">Pequeños detalles</span></div>
+          </div>
+          <!-- Foto 6 (Siempre juntos) -->
+          <div class="photo-card" onclick="openLightbox(5)">
+            <img src="https://drive.google.com/file/d/10LNvllwPHEsZOi5Dn3FHvBpxRCmW5nFQ/view?usp=drivesdk" alt="Siempre juntos">
+            <div class="photo-overlay"><span class="text-white font-medium">Siempre juntos</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MENSAJE SECRETO -->
+      <section class="py-12 sm:py-16 text-center">
+        <div class="glass rounded-[2rem] p-8 sm:p-12 max-w-2xl mx-auto">
+          <h2 class="serif text-2xl sm:text-3xl font-medium mb-3 text-white">Un mensaje solo para ti</h2>
+          <p class="muted text-base mb-6">Hay un secreto guardado que quiero revelar...</p>
+          
+          <button id="secret-btn" type="button" class="pill primary">
+            Descubrir el mensaje ♥
+          </button>
+
+          <div id="secret-msg" class="hidden mt-8 transition-all duration-500">
+            <p class="gold serif text-2xl sm:text-3xl font-medium leading-relaxed">
+              "Si volviera a empezar la vida, buscaría encontrarte mucho antes. En cada vida e historia, te elegiría a ti. ♥"
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="max-w-6xl mx-auto px-5 sm:px-8 py-10 border-t border-white/10 text-center">
+      <p class="muted serif text-base">Hecho con todo el amor del mundo, para mi persona favorita. ♥</p>
+    </footer>
+  </div>
+
+  <!-- LIGHTBOX / VISOR DE FOTOS -->
+  <div id="lightbox-modal" class="overlay hidden-overlay" role="dialog" aria-modal="true">
+    <div class="glass rounded-3xl p-5 sm:p-8 text-center max-w-4xl w-full max-h-[90vh] flex flex-col justify-between items-center relative">
+      <button type="button" onclick="closeLightbox()" class="pill absolute top-4 right-4 px-3 py-1 text-sm">✕ Cerrar</button>
+
+      <div class="w-full flex-1 flex items-center justify-center my-4 overflow-hidden">
+        <img id="lightbox-img" class="max-h-[65vh] max-w-full object-contain rounded-xl shadow-2xl" src="" alt="Foto ampliada">
+      </div>
+
+      <p id="lightbox-caption" class="serif gold text-xl mb-4 font-medium"></p>
+
+      <div class="flex justify-center gap-4">
+        <button type="button" onclick="prevLightbox()" class="pill">← Anterior</button>
+        <button type="button" onclick="nextLightbox()" class="pill">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT COMPLETO -->
+  <script>
+    function convertDriveUrl(url) {
+      if (!url) return url;
+      if (url.includes('drive.google.com')) {
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+        if (match && match[1]) {
+          return `https://lh3.googleusercontent.com/d/${match[1]}`;
+        }
+      }
+      return url;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Convertir automáticamente imágenes de Google Drive
+      document.querySelectorAll('img').forEach(img => {
+        if (img.src && img.src.includes('drive.google.com')) {
+          img.src = convertDriveUrl(img.src);
+        }
+      });
+
+      // Elementos del reproductor
+      const audioPlayer = document.getElementById('audio-player');
+      const playBtn = document.getElementById('play-btn');
+      const vinylDisk = document.getElementById('vinyl-disk');
+      const volumeControl = document.getElementById('volume-control');
+
+      // 1. Modal de Bienvenida - Inicia la música con la primera interacción
+      const welcomeModal = document.getElementById('welcome-modal');
+      const openGiftBtn = document.getElementById('open-gift-btn');
+
+      if (openGiftBtn && welcomeModal) {
+        openGiftBtn.addEventListener('click', () => {
+          welcomeModal.classList.add('hidden-overlay');
+          if (audioPlayer) {
+            audioPlayer.play().then(() => {
+              vinylDisk.classList.add('playing');
+              playBtn.innerHTML = "⏸ Pausar";
+            }).catch(err => {
+              console.log("Error de reproducción:", err);
+            });
+          }
+        });
+      }
+
+      // 2. Control manual de Reproducir / Pausar
+      if (playBtn && audioPlayer) {
+        playBtn.addEventListener('click', () => {
+          if (audioPlayer.paused) {
+            audioPlayer.play();
+            vinylDisk.classList.add('playing');
+            playBtn.innerHTML = "⏸ Pausar";
+          } else {
+            audioPlayer.pause();
+            vinylDisk.classList.remove('playing');
+            playBtn.innerHTML = "▶ Reproducir";
+          }
+        });
+      }
+
+      // Control de volumen
+      if (volumeControl && audioPlayer) {
+        audioPlayer.volume = volumeControl.value / 100;
+        volumeControl.addEventListener('input', (e) => {
+          audioPlayer.volume = e.target.value / 100;
+        });
+      }
+
+      // 3. Galería y Lightbox
+      const galleryData = [
+        { src: "https://drive.google.com/file/d/142yeteadsZgVHss9S-y_1R5myJfrYTPn/view?usp=drivesdk", title: "El comienzo" },
+        { src: "https://drive.google.com/file/d/1muguAe45iEdkX44NwVSVOWlo7Htk50sH/view?usp=drivesdk", title: "Nuestra cita" },
+        { src: "https://drive.google.com/file/d/1HvyUeKnK2MsEhuJ6DLwudmoTv8wf6qOh/view?usp=drivesdk", title: "Risas compartidas" },
+        { src: "https://drive.google.com/file/d/1QOneKXRv91VsGA9angqbJV_pVd5P4LuR/view?usp=drivesdk", title: "Aventuras juntos" },
+        { src: "https://drive.google.com/file/d/1xmn_xrPkWFM2wXSKiMTstRlj7g7W9Fcp/view?usp=drivesdk", title: "Pequeños detalles" },
+        { src: "https://drive.google.com/file/d/10LNvllwPHEsZOi5Dn3FHvBpxRCmW5nFQ/view?usp=drivesdk", title: "Siempre juntos" }
+      ];
+
+      let currentPhotoIdx = 0;
+      const lightboxModal = document.getElementById('lightbox-modal');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+
+      window.openLightbox = function(index) {
+        currentPhotoIdx = index;
+        updateLightbox();
+        lightboxModal.classList.remove('hidden-overlay');
+      };
+
+      window.closeLightbox = function() {
+        lightboxModal.classList.add('hidden-overlay');
+      };
+
+      window.prevLightbox = function() {
+        currentPhotoIdx = (currentPhotoIdx - 1 + galleryData.length) % galleryData.length;
+        updateLightbox();
+      };
+
+      window.nextLightbox = function() {
+        currentPhotoIdx = (currentPhotoIdx + 1) % galleryData.length;
+        updateLightbox();
+      };
+
+      function updateLightbox() {
+        const item = galleryData[currentPhotoIdx];
+        lightboxImg.src = convertDriveUrl(item.src);
+        lightboxCaption.textContent = item.title;
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (!lightboxModal.classList.contains('hidden-overlay')) {
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowLeft') prevLightbox();
+          if (e.key === 'ArrowRight') nextLightbox();
+        }
+      });
+
+      // 4. Mensaje Secreto
+      const secretBtn = document.getElementById('secret-btn');
+      const secretMsg = document.getElementById('secret-msg');
+
+      if (secretBtn && secretMsg) {
+        secretBtn.addEventListener('click', () => {
+          secretMsg.classList.remove('hidden');
+          secretBtn.style.display = 'none';
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+>
